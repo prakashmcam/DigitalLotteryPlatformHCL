@@ -2,7 +2,8 @@ import { useCallback, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   Badge, Body1, Button, Card, CardHeader, Field, MessageBar, MessageBarBody,
-  MessageBarTitle, Text, Title1, Title3,
+  MessageBarTitle, Text, Title1, Title3, Toast, ToastBody, Toaster, ToastTitle,
+  useId, useToastController,
 } from '@fluentui/react-components';
 import {
   ArrowLeftRegular, CheckmarkCircleRegular, ClockRegular, InfoRegular,
@@ -18,19 +19,59 @@ import { NumberBalls } from '../components/NumberBalls';
 import { SectionHeading } from '../components/SectionHeading';
 import { useApiResource } from '../app/useApiResource';
 
+const TOAST_MS = 3700;
+function CountdownRing() {
+  return (
+    <svg aria-hidden="true" className="toast-ring" height="26" viewBox="0 0 24 24" width="26">
+      <circle className="toast-ring__track" cx="12" cy="12" r="10" />
+      <circle className="toast-ring__progress" cx="12" cy="12" pathLength={100} r="10" style={{ animationDuration: `${TOAST_MS}ms` }} />
+    </svg>
+  );
+}
+
 function SelectionForm({ draw }: { readonly draw: Draw }) {
   const [numbers, setNumbers] = useState<number[]>([]);
   const [bonus, setBonus] = useState<number | null>(null);
   const [preview, setPreview] = useState<DemoSelection | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const selectionReady = numbers.length === draw.rules.mainCount && (draw.rules.bonusMax === null || bonus !== null);
+  const toasterId = useId('selection-toaster');
+  const { dispatchToast } = useToastController(toasterId);
+  const needsBonus = draw.rules.bonusMax !== null;
+  const selectionReady = numbers.length === draw.rules.mainCount && (!needsBonus || bonus !== null);
+
+    function announce(title: string, message: string) {
+    dispatchToast(
+      <Toast className="selection-toast">
+        <ToastTitle action={<CountdownRing />}>{title}</ToastTitle>
+        <ToastBody>{message}</ToastBody>
+      </Toast>,
+      { intent: 'success', pauseOnHover: true, politeness: 'polite', timeout: TOAST_MS },
+    );
+  }
 
   function toggleNumber(number: number) {
     setError(null);
     setPreview(null);
-    setNumbers((current) => current.includes(number)
-      ? current.filter((value) => value !== number)
-      : current.length < draw.rules.mainCount ? [...current, number] : current);
+    const next = numbers.includes(number)
+      ? numbers.filter((value) => value !== number)
+      : numbers.length < draw.rules.mainCount ? [...numbers, number] : numbers;
+    setNumbers(next);
+    if (next.length === draw.rules.mainCount && numbers.length < draw.rules.mainCount) {
+      const chosen = [...next].sort((a, b) => a - b).map((value) => value.toString().padStart(2, '0')).join(' · ');
+      announce(
+        `All ${draw.rules.mainCount} numbers chosen`,
+        `${chosen}. ${needsBonus && bonus === null ? 'Now pick your bonus number.' : 'You can review your demo selection.'}`,
+      );
+    }
+  }
+
+  function chooseBonus(value: number) {
+    setBonus(value);
+    setError(null);
+    setPreview(null);
+    if (numbers.length === draw.rules.mainCount) {
+      announce('Selection complete', `Bonus number ${value.toString().padStart(2, '0')} chosen. You can review your demo selection.`);
+    }
   }
 
   const reviewSelection = async () => {
@@ -45,8 +86,9 @@ function SelectionForm({ draw }: { readonly draw: Draw }) {
     }
   };
 
-  return (
-    <Card className="selection-card" appearance="outline">
+    return (
+    <>
+    <Toaster className="selection-toaster" inline limit={2} offset={{ vertical: 84 }} position="top-end" toasterId={toasterId} />    <Card className="selection-card" appearance="outline">
       <CardHeader
         image={<span className="section-heading__icon"><TicketDiagonalRegular /></span>}
         header={<div><Title3>Choose your numbers</Title3><Text size={200}>Pick {draw.rules.mainCount} main numbers{draw.rules.bonusMax ? ` and 1 bonus number` : ''}.</Text></div>}
@@ -79,7 +121,7 @@ function SelectionForm({ draw }: { readonly draw: Draw }) {
           <NumberBalls
             bonusMax={draw.rules.bonusMax}
             numbers={[]}
-            onSelectBonus={(value) => { setBonus(value); setError(null); setPreview(null); }}
+            onSelectBonus={chooseBonus}
             selectedBonus={bonus}
             selectable
           />
@@ -92,15 +134,17 @@ function SelectionForm({ draw }: { readonly draw: Draw }) {
           {numbers.length > 0 ? <NumberBalls numbers={numbers} bonus={bonus} label="Selected demo numbers" /> : <Text className="muted-copy" size={200}>Choose your numbers above</Text>}
         </div>
       </div>
-      {error && <MessageBar intent="error"><MessageBarBody><MessageBarTitle>Selection not ready</MessageBarTitle>{error}</MessageBarBody></MessageBar>}
-      {preview && <MessageBar intent="success"><CheckmarkCircleRegular /><MessageBarBody><MessageBarTitle>Demo selection reviewed</MessageBarTitle>{preview.notice}</MessageBarBody></MessageBar>}
+      {error && <MessageBar intent="error" layout="multiline"><MessageBarBody><MessageBarTitle>Selection not ready</MessageBarTitle>{error}</MessageBarBody></MessageBar>}
+      {preview && <MessageBar intent="success"layout="multiline"><CheckmarkCircleRegular /><MessageBarBody><MessageBarTitle>Demo selection reviewed</MessageBarTitle>{preview.notice}</MessageBarBody></MessageBar>}
       <div className="selection-actions">
         <Button appearance="secondary" onClick={() => { setNumbers([]); setBonus(null); setPreview(null); setError(null); }}>Clear selection</Button>
         <Button appearance="primary" disabled={!selectionReady} icon={<CheckmarkCircleRegular />} onClick={reviewSelection}>Review demo selection</Button>
       </div>
     </Card>
+    </>
   );
 }
+
 
 export function DrawDetailPage() {
   const { drawId: rawDrawId = '' } = useParams();
@@ -151,8 +195,7 @@ function DrawDetailContent({ draw }: { readonly draw: Draw }) {
               <div><dt>Draw time</dt><dd>{draw.schedule}</dd></div>
             </dl>
           </Card>
-          <MessageBar intent="info" className="non-transactional-note">
-            <InfoRegular />
+          <MessageBar intent="info" layout="multiline" className="non-transactional-note">            <InfoRegular />
             <MessageBarBody><MessageBarTitle>For demonstration only</MessageBarTitle>This interactive selection stays temporary. It does not create an entry, accept payment, or reserve numbers.</MessageBarBody>
           </MessageBar>
         </section>
