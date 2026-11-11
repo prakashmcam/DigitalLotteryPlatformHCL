@@ -50,9 +50,9 @@ export function ResultsPage() {
     <>
       <section className="mini-hero mini-hero--results">
         <div>
-          <Text className="eyebrow eyebrow--light"><span className="eyebrow-dot" />Draw outcomes</Text>
-          <Title1>Results, clearly accounted for.</Title1>
-          <Body1>Browse recently published outcomes and check every winning number.</Body1>
+          <Text block className="eyebrow eyebrow--light"><span className="eyebrow-dot" />Draw outcomes</Text>
+          <Title1 as="h1" block>Results, clearly accounted for.</Title1>
+          <Body1 as="p" block>Browse recently published outcomes and check every winning number.</Body1>
         </div>
         <div className="mini-hero__action"><Button appearance="primary" className="button-gold" icon={<ArrowRightRegular />} iconPosition="after" as="a" href="/">Explore active draws</Button></div>
       </section>

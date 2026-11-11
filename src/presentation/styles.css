@@ -58,7 +58,7 @@ a { color: inherit; text-decoration: none; }
 .hero-copy p { color: rgba(255,255,255,.82); line-height: 1.65; max-width: 56ch; }
 .eyebrow { align-items: center; color: var(--brand-primary); display: flex; font-size: 11px; font-weight: 800; gap: 8px; letter-spacing: .12em; margin-bottom: 8px; text-transform: uppercase; }
 .eyebrow--light { color: #f1ce7b; }
-.hero-copy .eyebrow { display: flex; }
+.hero-copy .eyebrow, .mini-hero .eyebrow { display: flex; }
 .eyebrow-dot { background: currentColor; height: 6px; width: 6px; }
 .hero-actions { align-items: center; display: flex; flex-wrap: wrap; gap: 11px; margin-top: 22px; }
 .button-gold { background: var(--brand-accent) !important; border-color: var(--brand-accent) !important; color: #17243a !important; font-weight: 750 !important; }
@@ -80,11 +80,12 @@ a { color: inherit; text-decoration: none; }
 .draw-card:hover, .ticket-card:hover { box-shadow: var(--app-shadow-md) !important; transform: translateY(-2px); }
 .draw-card--featured { border-top: 3px solid var(--brand-accent) !important; }
 .draw-card .fui-CardHeader { align-items: flex-start; }
+   .draw-card .fui-Badge { white-space: nowrap; }
 .draw-card__icon { align-items: center; background: rgba(23,54,93,.09); border-radius: 10px; color: var(--brand-primary); display: inline-flex; height: 38px; justify-content: center; width: 38px; }
 .draw-card__icon--gold { background: rgba(214,166,58,.18); color: #91680d; }
 .draw-card__icon svg { font-size: 20px; }
 .draw-card__heading { display: flex; flex-direction: column; gap: 3px; }
-.draw-card__heading h3 { font-size: 17px; font-weight: 730; }
+.draw-card__heading h3 { font-size: 17px; font-weight: 730; margin: 0; }
 .draw-card__heading > span { color: var(--app-muted); }
 .draw-card__details { display: flex; flex-direction: column; gap: 6px; padding: 15px 0 16px; }
 .jackpot-value { color: var(--brand-primary); font-size: 28px !important; font-weight: 800 !important; letter-spacing: -.045em; }

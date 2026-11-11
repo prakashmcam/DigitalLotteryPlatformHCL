@@ -19,7 +19,7 @@ function DrawCard({ draw }: { readonly draw: Draw }) {
     <Card className={`draw-card ${isFeatured ? 'draw-card--featured' : ''}`} appearance="filled-alternative">
       <CardHeader
         image={<span className={`draw-card__icon ${isFeatured ? 'draw-card__icon--gold' : ''}`}><TrophyRegular /></span>}
-        header={<div className="draw-card__heading"><Title3>{draw.name}</Title3><Text size={200}>{draw.summary}</Text></div>}
+        header={<div className="draw-card__heading"><Title3 as="h3">{draw.name}</Title3><Text size={200}>{draw.summary}</Text></div>}
         action={<Badge appearance="tint" color={draw.closesIn ? 'warning' : 'success'} icon={draw.closesIn ? <ClockRegular /> : <CheckmarkCircleRegular />}>{draw.closesIn ? `Closes in ${draw.closesIn}` : 'Open'}</Badge>}
       />
       <div className="draw-card__details">
