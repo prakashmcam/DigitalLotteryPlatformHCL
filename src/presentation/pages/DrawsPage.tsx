@@ -56,9 +56,9 @@ export function DrawsPage() {
             <Card className="hero-card" appearance="filled-alternative">
               <HeroMesh />
               <div className="hero-copy">
-                <Text className="eyebrow eyebrow--light"><span className="eyebrow-dot" />A little possibility, every day</Text>
-                <Title1>Find your next draw.</Title1>
-                <Body1>Explore upcoming draws, see what’s at stake, and build a ticket just for fun. Your next moment of possibility starts here.</Body1>
+                <Text block className="eyebrow eyebrow--light"><span className="eyebrow-dot" />A little possibility, every day</Text>
+                <Title1 as="h1" block>Find your next draw.</Title1>
+                <Body1 as="p" block>Explore upcoming draws, see what’s at stake, and build a ticket just for fun. Your next moment of possibility starts here.</Body1>
                 <div className="hero-actions">
                   <Button appearance="primary" className="button-gold" icon={<TicketDiagonalRegular />} as="a" href={`/draws/${featured.id}`}>Choose numbers</Button>
                   <Button appearance="subtle" className="button-hero-quiet" icon={<HistoryRegular />} as="a" href="/results">See recent results</Button>
