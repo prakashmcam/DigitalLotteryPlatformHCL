@@ -247,3 +247,9 @@ a { color: inherit; text-decoration: none; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
   .draw-card:hover, .ticket-card:hover, .button:hover { transform: none !important; }
 }
+/* Preview state bar: Fluent's Card overrides position and flex-direction, so the bar was not floating. */
+.fui-Card.preview-switcher { flex-direction: row; left: 50%; position: fixed; right: auto; transform: translateX(-50%); width: auto; }
+.fui-Card.preview-switcher > .fui-Text { font-size: 14px; font-weight: 700; white-space: nowrap; }
+@media (max-width: 520px) {
+  .fui-Card.preview-switcher { align-items: center; flex-direction: column; left: 8px; right: 8px; transform: none; }
+}
