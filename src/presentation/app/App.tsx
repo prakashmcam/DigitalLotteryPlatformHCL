@@ -20,8 +20,7 @@ function AppShell() {
   const navigate = useNavigate();
   const prefersReducedMotion = useReducedMotion();
   const { mode, resolvedMode, changeMode } = useThemeMode();
-  const nextMode = mode === 'system' ? 'light' : mode === 'light' ? 'dark' : 'system';
-  const ThemeIcon = resolvedMode === 'dark' ? WeatherMoonRegular : mode === 'system' ? DesktopRegular : WeatherSunnyRegular;
+  const nextMode = resolvedMode === 'dark' ? 'light' : 'dark';  const ThemeIcon = resolvedMode === 'dark' ? WeatherMoonRegular : mode === 'system' ? DesktopRegular : WeatherSunnyRegular;
   const pageMotion: Variants = prefersReducedMotion
     ? { initial: { opacity: 1, y: 0 }, animate: { opacity: 1, y: 0 }, exit: { opacity: 1, y: 0 } }
     : {
@@ -57,10 +56,10 @@ function AppShell() {
             </nav>
             <div className="topbar__actions">
               <span className="demo-chip"><span className="status-dot" /> Demo experience</span>
-              <Tooltip content={`Theme: ${mode}. Switch to ${nextMode}.`} relationship="label">
+              <Tooltip content={`Switch to ${nextMode} mode`} relationship="label">
                 <Button
                   appearance="subtle"
-                  aria-label={`Theme mode ${mode}; switch to ${nextMode}`}
+                  aria-label={`Switch to ${nextMode} mode`}
                   icon={<ThemeIcon />}
                   onClick={() => changeMode(nextMode)}
                 />
