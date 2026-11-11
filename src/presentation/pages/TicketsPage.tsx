@@ -4,7 +4,7 @@ import {
   MessageBarBody, MessageBarTitle, Text, Title1, Title3,
 } from '@fluentui/react-components';
 import {
-  ArrowRightRegular, InfoRegular, TicketDiagonalRegular,
+  ArrowRightRegular, TicketDiagonalRegular,
 } from '@fluentui/react-icons';
 import { api } from '../../api';
 import type { Ticket } from '../../domain/entities/Ticket';
@@ -45,10 +45,11 @@ export function TicketsPage() {
         </div>
         <div className="mini-hero__action"><Badge appearance="tint" color="informative" icon={<TicketDiagonalRegular />}>{ticketCount === null ? 'Sample wallet' : `${ticketCount} sample tickets`}</Badge></div>
       </section>
-      <MessageBar intent="info" className="demo-info">
-        <InfoRegular />
-        <MessageBarBody><MessageBarTitle>Local demo information</MessageBarTitle>The tickets below are fictional local examples, not records from an account.</MessageBarBody>
-      </MessageBar>
+      {ticketCount !== null && ticketCount > 0 && (
+        <MessageBar intent="info" className="demo-info">
+          <MessageBarBody><MessageBarTitle>Local demo information</MessageBarTitle>The tickets below are fictional local examples, not records from an account.</MessageBarBody>
+        </MessageBar>
+      )}
       <section className="content-section" aria-labelledby="tickets-heading">
         <SectionHeading title="Ticket history" detail="Local examples only" icon={<TicketDiagonalRegular />} />
         <DataState
