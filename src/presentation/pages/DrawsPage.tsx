@@ -19,7 +19,7 @@ function DrawCard({ draw }: { readonly draw: Draw }) {
     <Card className={`draw-card ${isFeatured ? 'draw-card--featured' : ''}`} appearance="filled-alternative">
       <CardHeader
         image={<span className={`draw-card__icon ${isFeatured ? 'draw-card__icon--gold' : ''}`}><TrophyRegular /></span>}
-        header={<div className="draw-card__heading"><Title3>{draw.name}</Title3><Text size={200}>{draw.summary}</Text></div>}
+        header={<div className="draw-card__heading"><Title3 as="h3">{draw.name}</Title3><Text size={200}>{draw.summary}</Text></div>}
         action={<Badge appearance="tint" color={draw.closesIn ? 'warning' : 'success'} icon={draw.closesIn ? <ClockRegular /> : <CheckmarkCircleRegular />}>{draw.closesIn ? `Closes in ${draw.closesIn}` : 'Open'}</Badge>}
       />
       <div className="draw-card__details">
@@ -56,9 +56,9 @@ export function DrawsPage() {
             <Card className="hero-card" appearance="filled-alternative">
               <HeroMesh />
               <div className="hero-copy">
-                <Text className="eyebrow eyebrow--light"><span className="eyebrow-dot" />A little possibility, every day</Text>
-                <Title1>Find your next draw.</Title1>
-                <Body1>Explore upcoming draws, see what’s at stake, and build a ticket just for fun. Your next moment of possibility starts here.</Body1>
+                <Text block className="eyebrow eyebrow--light"><span className="eyebrow-dot" />A little possibility, every day</Text>
+                <Title1 as="h1" block>Find your next draw.</Title1>
+                <Body1 as="p" block>Explore upcoming draws, see what’s at stake, and build a ticket just for fun. Your next moment of possibility starts here.</Body1>
                 <div className="hero-actions">
                   <Button appearance="primary" className="button-gold" icon={<TicketDiagonalRegular />} as="a" href={`/draws/${featured.id}`}>Choose numbers</Button>
                   <Button appearance="subtle" className="button-hero-quiet" icon={<HistoryRegular />} as="a" href="/results">See recent results</Button>

@@ -13,7 +13,21 @@ export const brandRamp: BrandVariants = {
 };
 
 const light = createLightTheme(brandRamp);
-const dark = createDarkTheme(brandRamp);
+// The brand ramp runs light to dark, so Fluent's dark theme would pick near-black
+// navy for brand text, icons and the selected-tab underline. Use lighter blues instead.
+const dark: Theme = {
+  ...createDarkTheme(brandRamp),
+  colorBrandForeground1: brandColors[4],
+  colorBrandForeground2: brandColors[3],
+  colorBrandForegroundLink: brandColors[4],
+  colorCompoundBrandForeground1: brandColors[4],
+  colorCompoundBrandForeground1Hover: brandColors[3],
+  colorCompoundBrandForeground1Pressed: brandColors[5],
+  colorCompoundBrandStroke: brandColors[4],
+  colorCompoundBrandStrokeHover: brandColors[3],
+  colorNeutralForeground2BrandSelected: brandColors[4],
+  colorNeutralForeground2BrandHover: brandColors[3],
+};
 
 export function getAppTheme(mode: 'light' | 'dark'): Theme {
   return mode === 'dark' ? dark : light;

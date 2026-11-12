@@ -39,9 +39,9 @@ export function TicketsPage() {
     <>
       <section className="mini-hero mini-hero--tickets">
         <div>
-          <Text className="eyebrow eyebrow--light"><span className="eyebrow-dot" />Your sample wallet</Text>
-          <Title1>My tickets</Title1>
-          <Body1>A clear view of fictional ticket and draw details.</Body1>
+          <Text block className="eyebrow eyebrow--light"><span className="eyebrow-dot" />Your sample wallet</Text>
+          <Title1 as="h1" block>My tickets</Title1>
+          <Body1 as="p" block>A clear view of fictional ticket and draw details.</Body1>
         </div>
         <div className="mini-hero__action"><Badge appearance="tint" color="informative" icon={<TicketDiagonalRegular />}>{ticketCount === null ? 'Sample wallet' : `${ticketCount} sample tickets`}</Badge></div>
       </section>
