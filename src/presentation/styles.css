@@ -237,7 +237,8 @@ a { color: inherit; text-decoration: none; }
 .loading-card .fui-Skeleton { align-items: flex-start; display: flex; flex-direction: column; gap: 12px; }
 .skeleton-line { height: 15px; width: 84%; }
 .skeleton-line--short { width: 55%; }
-.state-message { margin: 10px 0; }
+.state-message { margin: 10px 0; height: auto; }
+.state-message .fui-MessageBarBody{ display: flex; flex-direction: column; align-items: flex-start; gap: 12px;}
 .state-message .fui-Button { margin-top: 12px; }
 .empty-card { align-items: center; border: 1px dashed var(--app-border) !important; border-radius: 14px !important; display: flex; flex-direction: column; gap: 11px; justify-content: center; margin: 16px 0; min-height: 250px; padding: 28px; text-align: center; }
 .empty-card h1, .empty-card h3 { font-size: 23px; font-weight: 750; }
